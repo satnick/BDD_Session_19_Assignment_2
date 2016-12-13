@@ -1,0 +1,14 @@
+hadoop fs -put /home/cloudera/Desktop/Shared/hbase/Session19Ass2/student.txt /pig_ex/pigToHbase/
+
+hbase command to create table 'studentAcad' and colFamily 'student_data':
+============================================================================
+create 'studentAcad','student_data'
+
+
+pig command to load data and store in hbase table 'studentAcad':
+============================================================================
+rawD = load '/pig_ex/pigToHbase/student.txt' using PigStorage(',') as (studentName:chararray, sector: chararray, DOB:chararray,qualification:chararray, score:int,state:chararray,randomName:chararray);
+
+store rawD into 'hbase://studentAcad' using org.apache.pig.backend.hadoop.hbase.HBaseStorage('student_data:studentName, student_data:sector,student_data:DateOfBirth,student_data:qalification,student_data:score,student_data:state,student_data:randomname');
+
+
